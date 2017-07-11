@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Example vertical video with blur</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      margin: 0 auto;
+      display: flex;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .video-main {
+      height: 100vh;
+      z-index: 1;
+    }
+
+    .video-bg {
+      width: 100vw;
+      position: absolute;
+      filter: blur(10px);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <video class="video-bg" src="vertical-video.mov" muted></video>
+    <video class="video-main" src="vertical-video.mov" controls muted></video>
+  </div>
+
+  <script>
+    const $ = document.querySelector.bind(document)
+
+    const $videoMain = $('.video-main')
+    const $videoBg = $('.video-bg')
+
+    $videoMain.addEventListener('play', () => {
+      console.log('play')
+      $videoBg.play()
+    })
+
+    $videoMain.addEventListener('pause', () => {
+      console.log('pause')
+      $videoBg.pause()
+    })
+
+    $videoMain.addEventListener('seeked', (event) => {
+      console.log('seeked', event)
+      $videoBg.currentTime = $videoMain.currentTime
+    })
+  </script>
+</body>
+</html>
